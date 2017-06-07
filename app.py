@@ -49,8 +49,8 @@ def processRequest(req):
     parameters = result.get("parameters")
     symptoms = parameters.get("Symptoms")
     return {
-        "speech": "The Symptoms are " + symptoms,
-        "displayText": "The Symptoms are " + symptoms,
+        "speech": "The Symptoms are " + ', '.join(symptoms),
+        "displayText": "The Symptoms are " + ', '.join(symptoms),
         # "data": data,
         # "contextOut": [],
         "source": "apiai-maxbay"
