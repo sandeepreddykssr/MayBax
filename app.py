@@ -26,14 +26,7 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = {
-        "speech": "Test Sandeep",
-        "displayText": "Test Sandeep",
-        # "data": data,
-        # "contextOut": [],
-        "source": "apiai-maxbay"
-    }
-
+    res = processRequest(req)
     res = json.dumps(res, indent=4)
     # print(res)
     r = make_response(res)
@@ -42,17 +35,26 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") != "Dontfeelwell.Dontfeelwell-symptoms":
         return {}
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    result = urlopen(yql_url).read()
-    data = json.loads(result)
-    res = makeWebhookResult(data)
-    return res
+    # yql_query = makeYqlQuery(req)
+    # if yql_query is None:
+    #     return {}
+    # yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    # result = urlopen(yql_url).read()
+    # data = json.loads(result)
+    # res = makeWebhookResult(data)
+    result = req.get("result")
+    parameters = result.get("parameters")
+    symptoms = parameters.get("Symptoms")
+    return {
+        "speech": "The Symptoms are " + symptoms,
+        "displayText": "The Symptoms are " + symptoms,
+        # "data": data,
+        # "contextOut": [],
+        "source": "apiai-maxbay"
+    }
 
 
 def makeYqlQuery(req):
